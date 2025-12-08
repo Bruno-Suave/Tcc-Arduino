@@ -108,7 +108,7 @@ void atraso(unsigned long tempo, bool fase){
       contadorMillis = currentMillis;
     }
     
-    if(!btn && !limite && !vermelho)usoCartao();
+    if((!btn && !limite && !vermelho) || (mfrc522.PICC_IsNewCardPresent() && !limite && !vermelho))usoCartao();
     //Serial.println(btn);
   }while(tempo>0);
 }
