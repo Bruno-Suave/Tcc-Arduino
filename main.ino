@@ -36,9 +36,9 @@ MFRC522 mfrc522(rfid_sda, rfid_rst);
 // VARIAVEIS
 
 unsigned long tempoAmarelo = 3000;
-unsigned long tempoVerde = 5000;
-unsigned long tempoVermelho = 3000;
-unsigned long tempoCartao = 5000;
+unsigned long tempoVerde = 15000;
+unsigned long tempoVermelho = 10000;
+unsigned long tempoCartao = 15000;
 
 unsigned long currentMillis = 0;
 unsigned long startMillis = 0;
@@ -80,6 +80,7 @@ void usoCartao(){
   delay(500);
   noTone(buz);
   limite=1;
+  mfrc522.PICC_HaltA(); 
   return;
 }
 
@@ -97,11 +98,11 @@ void atraso(unsigned long tempo, bool fase){
   int i = tempo/1000+1;
   do{
     currentMillis = millis();
-  	if(currentMillis - startMillis >= tempo && i<=0){
-  		startMillis = currentMillis;
+    if(currentMillis - startMillis >= tempo && i<=0){
+      startMillis = currentMillis;
       delay(500);
-    	return;
-  	}
+      return;
+    }
     if(currentMillis - contadorMillis >= sec){
       i--;
       if(!fase)contador(i);
@@ -141,6 +142,9 @@ void sinalVermelho(bool cartao){
   esp=0;
   Serial.println("cabo o sinal vermelho");
   vermelho=!vermelho;
+  limite=0;
+  Serial.println(vermelho);
+  Serial.println(limite);
 }
 
 void loop(){
